@@ -40,21 +40,27 @@ public class Main {
       }
 
       LargestCard currentLargest = LargestCard.NOTHING;
-      for (int j = 0; j < 6; j++) {
+      for (int j = 1; j < 6; j++) {
         LargestCard newLargest = playerList.get(j).getLargestCardType();
         if (newLargest.ordinal() > currentLargest.ordinal()) {
           currentLargest = newLargest;
         }
       }
 
+      // Check if the host can get two or three joker before he gets extra 12 cards.
+      LargestCard hostLargestCard = playerList.get(0).getLargestCardType();
       if (currentLargest == LargestCard.NOTHING) {
-        return 0;
+        if (hostLargestCard == LargestCard.DOUBLE_JOKER || hostLargestCard == LargestCard.TRIPLE_JOKER) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
 
       for (int i = 0; i < 12; i++) {
         playerList.get(0).getCard(oneDeck.getCard());
       }
-      LargestCard hostLargestCard = playerList.get(0).getLargestCardType();
+      hostLargestCard = playerList.get(0).getLargestCardType();
       if (hostLargestCard.ordinal() > currentLargest.ordinal()) {
         currentLargest = hostLargestCard;
       }
